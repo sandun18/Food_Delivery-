@@ -1,0 +1,14 @@
+{
+  "name": "food-delivery-backend",
+  "version": "1.0.0",
+  "description": "Backend API for Food Delivery Application",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": ["food-delivery", "mern", "express", "mongodb"],
+  "author": "",
+  "license": "ISC"
+}
