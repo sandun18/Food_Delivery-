@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import mongoose from 'mongoose';
 import connectDB from './config/db.js';
 
 // Setup __dirname for ES modules
@@ -30,7 +31,7 @@ app.use(express.urlencoded({ extended: true }));
 // Serve uploaded images to the browser via /images/<filename>
 app.use('/images', express.static(path.join(__dirname, 'uploads')));
 
-// 5. Health check / Root route
+// 5. Root route
 app.get('/', (req, res) => {
   res.status(200).json({
     success: true,
@@ -38,13 +39,43 @@ app.get('/', (req, res) => {
   });
 });
 
-// 6. Connect to database and start server
+// 6. Comprehensive Health Check route (Server & Database status)
+app.get('/api/health', (req, res) => {
+  const dbStatusMap = {
+    0: 'Disconnected',
+    1: 'Connected',
+    2: 'Connecting',
+    3: 'Disconnecting'
+  };
+
+  const dbState = mongoose.connection.readyState;
+  const isDbConnected = dbState === 1;
+
+  const healthData = {
+    status: isDbConnected ? 'OK' : 'DEGRADED',
+    timestamp: new Date().toISOString(),
+    uptime: `${Math.floor(process.uptime())}s`,
+    database: {
+      status: dbStatusMap[dbState] || 'Unknown',
+      name: mongoose.connection.name || 'N/A',
+      host: mongoose.connection.host || 'N/A'
+    }
+  };
+
+  res.status(isDbConnected ? 200 : 503).json({
+    success: isDbConnected,
+    ...healthData
+  });
+});
+
+// 7. Connect to database and start server
 const startServer = async () => {
   await connectDB();
 
   app.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}`);
     console.log(`📁 Static files served at http://localhost:${PORT}/images`);
+    console.log(`🩺 Health check available at http://localhost:${PORT}/api/health`);
   });
 };
 
