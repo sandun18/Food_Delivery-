@@ -3,28 +3,37 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 
-// Load environment variables
+// 1. Environment variables load කිරීම
 dotenv.config();
 
+// 2. Express App එක initialize කිරීම
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
+// 3. Core Middlewares
+// Client එකෙන් එන requests සඳහා CORS configure කිරීම
 app.use(cors({
   origin: process.env.CLIENT_URL || 'http://localhost:5173',
   credentials: true
 }));
+
+// Request body එකේ එන JSON data parse කර ගැනීමට express.json() middleware එක
 app.use(express.json());
+
+// URL-encoded data parse කර ගැනීම සඳහා
 app.use(express.urlencoded({ extended: true }));
 
-// Test Route
+// 4. Base / Health Check Route
 app.get('/', (req, res) => {
-  res.send('API is running...');
+  res.status(200).json({
+    success: true,
+    message: 'Food Delivery API is running successfully'
+  });
 });
 
-// Connect to Database and start server
+// 5. Database එකට සම්බන්ධ වී Server එක Start කිරීම
 const startServer = async () => {
-  // Database connection with error handling and process.exit(1) on failure
+  // Database connection error handling
   await connectDB();
 
   app.listen(PORT, () => {
@@ -33,3 +42,5 @@ const startServer = async () => {
 };
 
 startServer();
+
+export default app;
