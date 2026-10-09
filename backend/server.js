@@ -1,29 +1,36 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import connectDB from './config/db.js';
 
-// 1. Environment variables load කිරීම
+// Setup __dirname for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// 1. Load environment variables
 dotenv.config();
 
-// 2. Express App එක initialize කිරීම
+// 2. Initialize Express application
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// 3. Core Middlewares
-// Client එකෙන් එන requests සඳහා CORS configure කිරීම
-app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:5173',
-  credentials: true
-}));
+// 3. Middlewares
+// Enable CORS for frontend and admin panel requests
+app.use(cors());
 
-// Request body එකේ එන JSON data parse කර ගැනීමට express.json() middleware එක
+// Parse incoming JSON payloads in request body
 app.use(express.json());
 
-// URL-encoded data parse කර ගැනීම සඳහා
+// Parse URL-encoded form data
 app.use(express.urlencoded({ extended: true }));
 
-// 4. Base / Health Check Route
+// 4. Serve static files
+// Serve uploaded images to the browser via /images/<filename>
+app.use('/images', express.static(path.join(__dirname, 'uploads')));
+
+// 5. Health check / Root route
 app.get('/', (req, res) => {
   res.status(200).json({
     success: true,
@@ -31,13 +38,13 @@ app.get('/', (req, res) => {
   });
 });
 
-// 5. Database එකට සම්බන්ධ වී Server එක Start කිරීම
+// 6. Connect to database and start server
 const startServer = async () => {
-  // Database connection error handling
   await connectDB();
 
   app.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}`);
+    console.log(`📁 Static files served at http://localhost:${PORT}/images`);
   });
 };
 
