@@ -5,6 +5,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
 import connectDB from './config/db.js';
+import userRouter from './routes/userRoute.js';
 
 // Setup __dirname for ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -31,7 +32,10 @@ app.use(express.urlencoded({ extended: true }));
 // Serve uploaded images to the browser via /images/<filename>
 app.use('/images', express.static(path.join(__dirname, 'uploads')));
 
-// 5. Root route
+// 5. API Endpoints
+app.use('/api/user', userRouter);
+
+// 6. Root route
 app.get('/', (req, res) => {
   res.status(200).json({
     success: true,
@@ -39,7 +43,7 @@ app.get('/', (req, res) => {
   });
 });
 
-// 6. Comprehensive Health Check route (Server & Database status)
+// 7. Comprehensive Health Check route (Server & Database status)
 app.get('/api/health', (req, res) => {
   const dbStatusMap = {
     0: 'Disconnected',
@@ -68,7 +72,7 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// 7. Connect to database and start server
+// 8. Connect to database and start server
 const startServer = async () => {
   await connectDB();
 
