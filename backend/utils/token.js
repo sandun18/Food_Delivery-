@@ -18,4 +18,4 @@ export const createToken = (id) => {
   });
 };
 
-export default createToken;
+export default createToken
