@@ -106,3 +106,56 @@ export const listFood = async (req, res) => {
   }
 };
 
+/**
+ * Remove a food item
+ * @route POST /api/food/remove
+ * @access Public / Admin
+ */
+export const removeFood = async (req, res) => {
+  try {
+    const foodId = req.body.id || req.body._id;
+
+    if (!foodId) {
+      return res.status(400).json({
+        success: false,
+        message: 'Food ID is required'
+      });
+    }
+
+    // 1. Find the food item to retrieve its image filename
+    const food = await Food.findById(foodId);
+    if (!food) {
+      return res.status(404).json({
+        success: false,
+        message: 'Food item not found'
+      });
+    }
+
+    // 2. Remove the associated image file from uploads folder using fs.unlink
+    if (food.image) {
+      const imagePath = path.join('uploads', food.image);
+      fs.unlink(imagePath, (err) => {
+        if (err && err.code !== 'ENOENT') {
+          console.warn(`Warning: Could not delete image ${food.image}:`, err.message);
+        }
+      });
+    }
+
+    // 3. Delete the food item from database
+    await Food.findByIdAndDelete(foodId);
+
+    return res.status(200).json({
+      success: true,
+      message: 'Food item removed successfully'
+    });
+  } catch (error) {
+    console.error('Error removing food item:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to remove food item',
+      error: error.message
+    });
+  }
+};
+
+
