@@ -83,3 +83,26 @@ export const addFood = async (req, res) => {
     });
   }
 };
+
+/**
+ * Get all food items
+ * @route GET /api/food/list
+ * @access Public
+ */
+export const listFood = async (req, res) => {
+  try {
+    const foods = await Food.find({});
+    return res.status(200).json({
+      success: true,
+      data: foods
+    });
+  } catch (error) {
+    console.error('Error fetching food list:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to fetch food items',
+      error: error.message
+    });
+  }
+};
+
