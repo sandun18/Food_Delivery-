@@ -158,4 +158,48 @@ export const removeFood = async (req, res) => {
   }
 };
 
+/**
+ * Filter food items by category
+ * @route GET /api/food/category/:cat
+ * @access Public
+ */
+export const getFoodByCategory = async (req, res) => {
+  try {
+    const { cat } = req.params;
+
+    if (!cat || !cat.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: 'Category parameter is required'
+      });
+    }
+
+    const trimmedCategory = cat.trim();
+    let query = {};
+
+    // If category is 'all', fetch all items; otherwise match case-insensitively
+    if (trimmedCategory.toLowerCase() !== 'all') {
+      const sanitizedCat = trimmedCategory.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      query = { category: { $regex: new RegExp(`^${sanitizedCat}$`, 'i') } };
+    }
+
+    const foods = await Food.find(query);
+
+    return res.status(200).json({
+      success: true,
+      category: trimmedCategory,
+      count: foods.length,
+      data: foods
+    });
+  } catch (error) {
+    console.error('Error fetching food by category:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to fetch food items by category',
+      error: error.message
+    });
+  }
+};
+
+
 

@@ -1,7 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import path from 'path';
-import { addFood, listFood, removeFood } from '../controllers/foodController.js';
+import { addFood, listFood, removeFood, getFoodByCategory } from '../controllers/foodController.js';
 
 const foodRouter = express.Router();
 
@@ -41,5 +41,8 @@ foodRouter.get('/list', listFood);
 
 // Route: Remove Food Item
 foodRouter.post('/remove', removeFood);
+
+// Route: Filter Food by Category
+foodRouter.get('/category/:cat', getFoodByCategory);
 
 export default foodRouter;
