@@ -189,3 +189,65 @@ export const placeOrder = async (req, res) => {
     });
   }
 };
+
+/**
+ * Verify Stripe Payment Status
+ * Route: POST /api/order/verify
+ * Access: Public / Protected
+ *
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
+export const verifyOrder = async (req, res) => {
+  try {
+    const { orderId, success } = req.body;
+
+    // Validate orderId presence
+    if (!orderId) {
+      return res.status(400).json({
+        success: false,
+        message: 'Order ID is required for verification'
+      });
+    }
+
+    const isSuccess = success === true || success === 'true';
+
+    if (isSuccess) {
+      // Payment successful: mark payment as true
+      const updatedOrder = await Order.findByIdAndUpdate(
+        orderId,
+        { payment: true },
+        { new: true }
+      );
+
+      if (!updatedOrder) {
+        return res.status(404).json({
+          success: false,
+          message: 'Order not found'
+        });
+      }
+
+      return res.status(200).json({
+        success: true,
+        message: 'Payment verified successfully. Order confirmed.',
+        order: updatedOrder
+      });
+    } else {
+      // Payment cancelled or failed: remove the unpaid pending order
+      const deletedOrder = await Order.findByIdAndDelete(orderId);
+
+      return res.status(200).json({
+        success: false,
+        message: 'Payment was cancelled or failed. Order removed.',
+        orderId: deletedOrder ? deletedOrder._id : orderId
+      });
+    }
+  } catch (error) {
+    console.error('Error in verifyOrder controller:', error.message);
+    return res.status(500).json({
+      success: false,
+      message: 'Order verification failed',
+      error: error.message
+    });
+  }
+};
