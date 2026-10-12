@@ -118,3 +118,42 @@ export const removeFromCart = async (req, res) => {
     });
   }
 };
+
+/**
+ * Retrieve the current user's cart data
+ * Route: POST /api/cart/get or GET /api/cart
+ * Access: Private (Requires Auth Middleware)
+ *
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
+export const getCart = async (req, res) => {
+  try {
+    const userId = req.userId || req.body.userId;
+
+    // Find the user by ID
+    const userData = await User.findById(userId);
+    if (!userData) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    // Retrieve user's cartData or default to an empty object
+    const cartData = userData.cartData || {};
+
+    return res.status(200).json({
+      success: true,
+      message: 'Cart data retrieved successfully',
+      cartData
+    });
+  } catch (error) {
+    console.error('Error in getCart controller:', error.message);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to retrieve cart data',
+      error: error.message
+    });
+  }
+};
