@@ -289,3 +289,68 @@ export const userOrders = async (req, res) => {
     });
   }
 };
+
+/**
+ * Cancel an Order (allowed only when status is 'Food Processing')
+ * Route: POST /api/order/cancel
+ * Access: Private (Requires Auth Middleware)
+ *
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
+export const cancelOrder = async (req, res) => {
+  try {
+    const userId = req.userId || req.body.userId;
+    const { orderId } = req.body;
+
+    // 1. Validation
+    if (!orderId) {
+      return res.status(400).json({
+        success: false,
+        message: 'Order ID is required'
+      });
+    }
+
+    // 2. Find order by ID
+    const order = await Order.findById(orderId);
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: 'Order not found'
+      });
+    }
+
+    // 3. Verify user ownership
+    if (order.userId.toString() !== userId.toString()) {
+      return res.status(403).json({
+        success: false,
+        message: 'Not authorized: You can only cancel your own orders'
+      });
+    }
+
+    // 4. Verify order is in 'Food Processing' state
+    if (order.status !== 'Food Processing') {
+      return res.status(400).json({
+        success: false,
+        message: `Order cannot be cancelled. Orders can only be cancelled while in 'Food Processing' state (Current status: '${order.status}')`
+      });
+    }
+
+    // 5. Update order status to 'Cancelled'
+    order.status = 'Cancelled';
+    await order.save();
+
+    return res.status(200).json({
+      success: true,
+      message: 'Order cancelled successfully',
+      order
+    });
+  } catch (error) {
+    console.error('Error in cancelOrder controller:', error.message);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to cancel order',
+      error: error.message
+    });
+  }
+};

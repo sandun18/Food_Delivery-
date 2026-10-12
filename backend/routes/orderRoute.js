@@ -1,5 +1,5 @@
 import express from 'express';
-import { placeOrderCod, placeOrder, verifyOrder, userOrders } from '../controllers/orderController.js';
+import { placeOrderCod, placeOrder, verifyOrder, userOrders, cancelOrder } from '../controllers/orderController.js';
 import authMiddleware from '../middleware/auth.js';
 
 const orderRouter = express.Router();
@@ -14,5 +14,8 @@ orderRouter.post('/verify', verifyOrder);
 // User Orders Route (Protected)
 orderRouter.post('/userorders', authMiddleware, userOrders);
 orderRouter.get('/userorders', authMiddleware, userOrders);
+
+// Cancel Order Route (Protected)
+orderRouter.post('/cancel', authMiddleware, cancelOrder);
 
 export default orderRouter;
