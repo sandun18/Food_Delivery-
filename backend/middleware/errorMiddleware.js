@@ -1,14 +1,15 @@
 /**
- * 404 Not Found Handler for unknown API routes
+ * Graceful 404 Not Found Route Handler
+ * Intercepts requests to non-existent API routes and returns a friendly JSON response
  *
  * @param {import('express').Request} req
  * @param {import('express').Response} res
- * @param {import('express').NextFunction} next
  */
-export const notFoundHandler = (req, res, next) => {
-  const error = new Error(`Resource Not Found: [${req.method}] ${req.originalUrl}`);
-  res.status(404);
-  next(error);
+export const notFoundHandler = (req, res) => {
+  return res.status(404).json({
+    success: false,
+    message: 'API endpoint not found'
+  });
 };
 
 /**
