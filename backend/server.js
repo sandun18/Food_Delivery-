@@ -10,7 +10,9 @@ import foodRouter from './routes/foodRoute.js';
 import cartRouter from './routes/cartRoute.js';
 import orderRouter from './routes/orderRoute.js';
 import adminRouter from './routes/adminRoute.js';
+import helmet from 'helmet';
 import { notFoundHandler, errorHandler } from './middleware/errorMiddleware.js';
+import { apiLimiter } from './middleware/securityMiddleware.js';
 
 // Setup __dirname for ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -24,6 +26,16 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // 3. Middlewares
+// Security HTTP headers (configured to allow cross-origin images for frontend)
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: 'cross-origin' }
+  })
+);
+
+// Apply rate limiting to all API routes
+app.use('/api', apiLimiter);
+
 // Enable CORS for frontend and admin panel requests
 app.use(cors());
 
