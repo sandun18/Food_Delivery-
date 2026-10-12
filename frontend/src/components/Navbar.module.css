@@ -1,0 +1,125 @@
+.navbar {
+  padding: 1.25rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--gray-200);
+  background-color: transparent;
+}
+
+.logo {
+  height: 38px;
+  width: auto;
+  cursor: pointer;
+  object-fit: contain;
+}
+
+.navMenu {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+
+.navLink {
+  cursor: pointer;
+  position: relative;
+  transition: color var(--transition-fast);
+  padding: 0.25rem 0;
+}
+
+.navLink:hover,
+.navLink.active {
+  color: var(--primary);
+}
+
+.navLink.active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--primary);
+  border-radius: var(--border-radius-full);
+}
+
+.navRight {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+}
+
+.searchIcon,
+.cartIconWrapper {
+  position: relative;
+  cursor: pointer;
+  color: var(--text-primary);
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition-fast);
+}
+
+.searchIcon:hover,
+.cartIconWrapper:hover {
+  color: var(--primary);
+}
+
+.cartDot {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background-color: var(--primary);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: var(--border-radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+}
+
+.signInBtn {
+  background: transparent;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--dark);
+  border: 1.5px solid var(--primary);
+  padding: 0.6rem 1.6rem;
+  border-radius: var(--border-radius-full);
+  transition: all var(--transition-normal);
+}
+
+.signInBtn:hover {
+  background-color: var(--primary);
+  color: #fff;
+  box-shadow: var(--shadow-primary);
+}
+
+@media (max-width: 900px) {
+  .navMenu {
+    gap: 1.25rem;
+    font-size: 0.95rem;
+  }
+
+  .navRight {
+    gap: 1.25rem;
+  }
+
+  .logo {
+    height: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navMenu {
+    display: none;
+  }
+}
