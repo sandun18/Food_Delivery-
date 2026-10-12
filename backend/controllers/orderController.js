@@ -354,3 +354,88 @@ export const cancelOrder = async (req, res) => {
     });
   }
 };
+
+/**
+ * Admin: Get all orders across all users
+ * Route: GET /api/order/list (also supports POST)
+ * Access: Private (Requires Admin Auth)
+ *
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
+export const listOrders = async (req, res) => {
+  try {
+    // Retrieve all orders sorted newest first
+    const orders = await Order.find({}).sort({ date: -1, createdAt: -1 });
+
+    return res.status(200).json({
+      success: true,
+      message: 'All orders retrieved successfully',
+      data: orders,
+      orders
+    });
+  } catch (error) {
+    console.error('Error in listOrders controller:', error.message);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to retrieve orders list',
+      error: error.message
+    });
+  }
+};
+
+/**
+ * Admin: Update order status ('Food Processing' -> 'Out for Delivery' -> 'Delivered' / 'Cancelled')
+ * Route: POST /api/order/status
+ * Access: Private (Requires Admin Auth)
+ *
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
+export const updateStatus = async (req, res) => {
+  try {
+    const { orderId, status } = req.body;
+
+    // 1. Validation
+    if (!orderId) {
+      return res.status(400).json({
+        success: false,
+        message: 'Order ID is required'
+      });
+    }
+
+    if (!status || typeof status !== 'string' || status.trim() === '') {
+      return res.status(400).json({
+        success: false,
+        message: 'Valid status is required'
+      });
+    }
+
+    // 2. Update status in MongoDB
+    const updatedOrder = await Order.findByIdAndUpdate(
+      orderId,
+      { status: status.trim() },
+      { new: true }
+    );
+
+    if (!updatedOrder) {
+      return res.status(404).json({
+        success: false,
+        message: 'Order not found'
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: `Order status successfully updated to '${updatedOrder.status}'`,
+      order: updatedOrder
+    });
+  } catch (error) {
+    console.error('Error in updateStatus controller:', error.message);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to update order status',
+      error: error.message
+    });
+  }
+};
