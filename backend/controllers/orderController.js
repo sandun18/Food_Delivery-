@@ -251,3 +251,41 @@ export const verifyOrder = async (req, res) => {
     });
   }
 };
+
+/**
+ * Get all orders placed by the currently logged-in user
+ * Route: POST /api/order/userorders
+ * Access: Private (Requires Auth Middleware)
+ *
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
+export const userOrders = async (req, res) => {
+  try {
+    const userId = req.userId || req.body.userId;
+
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        message: 'User ID is required to fetch orders'
+      });
+    }
+
+    // Find all orders for this user sorted by date in descending order (newest first)
+    const orders = await Order.find({ userId }).sort({ date: -1, createdAt: -1 });
+
+    return res.status(200).json({
+      success: true,
+      message: 'User orders retrieved successfully',
+      data: orders,
+      orders
+    });
+  } catch (error) {
+    console.error('Error in userOrders controller:', error.message);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to retrieve user orders',
+      error: error.message
+    });
+  }
+};
