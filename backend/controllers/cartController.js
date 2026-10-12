@@ -157,3 +157,42 @@ export const getCart = async (req, res) => {
     });
   }
 };
+
+/**
+ * Clear the user's cart (used after placing an order or resetting cart)
+ * Route: POST /api/cart/clear
+ * Access: Private (Requires Auth Middleware)
+ *
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
+export const clearCart = async (req, res) => {
+  try {
+    const userId = req.userId || req.body.userId;
+
+    // Find the user by ID
+    const userData = await User.findById(userId);
+    if (!userData) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    // Reset cartData to an empty object
+    await User.findByIdAndUpdate(userId, { cartData: {} });
+
+    return res.status(200).json({
+      success: true,
+      message: 'Cart cleared successfully',
+      cartData: {}
+    });
+  } catch (error) {
+    console.error('Error in clearCart controller:', error.message);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to clear cart',
+      error: error.message
+    });
+  }
+};
