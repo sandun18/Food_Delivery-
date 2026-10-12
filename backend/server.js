@@ -7,6 +7,7 @@ import mongoose from 'mongoose';
 import connectDB from './config/db.js';
 import userRouter from './routes/userRoute.js';
 import foodRouter from './routes/foodRoute.js';
+import cartRouter from './routes/cartRoute.js';
 
 // Setup __dirname for ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -36,6 +37,7 @@ app.use('/images', express.static(path.join(__dirname, 'uploads')));
 // 5. API Endpoints
 app.use('/api/user', userRouter);
 app.use('/api/food', foodRouter);
+app.use('/api/cart', cartRouter);
 
 // 6. Root route
 app.get('/', (req, res) => {
