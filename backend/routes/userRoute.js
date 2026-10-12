@@ -1,5 +1,6 @@
 import express from 'express';
-import { registerUser, loginUser } from '../controllers/userController.js';
+import { registerUser, loginUser, getProfile, updateProfile } from '../controllers/userController.js';
+import authMiddleware from '../middleware/auth.js';
 
 const userRouter = express.Router();
 
@@ -8,6 +9,11 @@ userRouter.post('/register', registerUser);
 
 // User Login Route
 userRouter.post('/login', loginUser);
+
+// User Profile Routes (Protected)
+userRouter.get('/profile', authMiddleware, getProfile);
+userRouter.put('/profile', authMiddleware, updateProfile);
+userRouter.post('/profile', authMiddleware, updateProfile);
 
 export default userRouter;
 

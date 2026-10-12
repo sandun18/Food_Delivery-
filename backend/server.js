@@ -10,6 +10,7 @@ import foodRouter from './routes/foodRoute.js';
 import cartRouter from './routes/cartRoute.js';
 import orderRouter from './routes/orderRoute.js';
 import adminRouter from './routes/adminRoute.js';
+import { notFoundHandler, errorHandler } from './middleware/errorMiddleware.js';
 
 // Setup __dirname for ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -80,7 +81,11 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// 8. Connect to database and start server
+// 8. 404 Route Not Found and Centralized Error Handling Middlewares
+app.use(notFoundHandler);
+app.use(errorHandler);
+
+// 9. Connect to database and start server
 const startServer = async () => {
   await connectDB();
 

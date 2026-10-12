@@ -130,8 +130,97 @@ export const loginUser = async (req, res) => {
   }
 };
 
+/**
+ * Get logged-in user profile
+ * @route GET /api/user/profile
+ * @access Private (Requires Auth)
+ */
+export const getProfile = async (req, res) => {
+  try {
+    const userId = req.userId || req.body.userId;
+
+    const user = await User.findById(userId).select('-password');
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      user
+    });
+  } catch (error) {
+    console.error('Get Profile Error:', error.message);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to retrieve user profile',
+      error: error.message
+    });
+  }
+};
+
+/**
+ * Update user profile (name, phone, address)
+ * @route PUT /api/user/profile
+ * @access Private (Requires Auth)
+ */
+export const updateProfile = async (req, res) => {
+  try {
+    const userId = req.userId || req.body.userId;
+    const { name, phone, address } = req.body;
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    // Update fields if provided in request
+    if (name !== undefined && typeof name === 'string' && name.trim() !== '') {
+      user.name = name.trim();
+    }
+
+    if (phone !== undefined) {
+      user.phone = typeof phone === 'string' ? phone.trim() : String(phone);
+    }
+
+    if (address !== undefined) {
+      user.address = address;
+    }
+
+    const updatedUser = await user.save();
+
+    return res.status(200).json({
+      success: true,
+      message: 'Profile updated successfully',
+      user: {
+        id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        phone: updatedUser.phone,
+        address: updatedUser.address,
+        role: updatedUser.role,
+        cartData: updatedUser.cartData
+      }
+    });
+  } catch (error) {
+    console.error('Update Profile Error:', error.message);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to update profile',
+      error: error.message
+    });
+  }
+};
+
 export default {
   registerUser,
-  loginUser
+  loginUser,
+  getProfile,
+  updateProfile
 };
 
