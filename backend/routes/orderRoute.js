@@ -1,11 +1,11 @@
 import express from 'express';
-import { placeOrderCod } from '../controllers/orderController.js';
+import { placeOrderCod, placeOrder } from '../controllers/orderController.js';
 import authMiddleware from '../middleware/auth.js';
 
 const orderRouter = express.Router();
 
-// Route to place Cash on Delivery (COD) order (Protected)
+// Order Placement Routes (Protected)
 orderRouter.post('/place-cod', authMiddleware, placeOrderCod);
-orderRouter.post('/place', authMiddleware, placeOrderCod);
+orderRouter.post('/place', authMiddleware, placeOrder);
 
 export default orderRouter;
