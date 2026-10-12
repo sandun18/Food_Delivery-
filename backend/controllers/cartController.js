@@ -57,3 +57,64 @@ export const addToCart = async (req, res) => {
     });
   }
 };
+
+/**
+ * Remove an item or decrement its quantity from the user's cart
+ * Route: POST /api/cart/remove
+ * Access: Private (Requires Auth Middleware)
+ *
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
+export const removeFromCart = async (req, res) => {
+  try {
+    const userId = req.userId || req.body.userId;
+    const { itemId } = req.body;
+
+    // Validate itemId presence
+    if (!itemId) {
+      return res.status(400).json({
+        success: false,
+        message: 'Item ID is required'
+      });
+    }
+
+    // Find the user by ID
+    const userData = await User.findById(userId);
+    if (!userData) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    // Get current cart data or initialize empty object
+    const cartData = userData.cartData ? { ...userData.cartData } : {};
+
+    // Check if the item exists in the cart
+    if (cartData[itemId]) {
+      if (cartData[itemId] > 1) {
+        cartData[itemId] -= 1;
+      } else {
+        // If quantity is 1 or less, delete the key completely
+        delete cartData[itemId];
+      }
+    }
+
+    // Update user document with the modified cart data
+    await User.findByIdAndUpdate(userId, { cartData });
+
+    return res.status(200).json({
+      success: true,
+      message: 'Item removed from cart successfully',
+      cartData
+    });
+  } catch (error) {
+    console.error('Error in removeFromCart controller:', error.message);
+    return res.status(500).json({
+      success: false,
+      message: 'Failed to remove item from cart',
+      error: error.message
+    });
+  }
+};
