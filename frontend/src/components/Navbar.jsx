@@ -11,7 +11,8 @@ import {
   FiHome,
   FiSmartphone,
   FiPhone,
-  FiPackage
+  FiPackage,
+  FiGrid
 } from 'react-icons/fi';
 import { useAppContext } from '../context/AppContext';
 import styles from './Navbar.module.css';
@@ -165,6 +166,13 @@ export default function Navbar() {
                   <FiUser className={styles.itemIcon} />
                   <span>Profile</span>
                 </li>
+                <li
+                  className={styles.dropdownItem}
+                  onClick={() => navigate('/admin')}
+                >
+                  <FiGrid className={styles.itemIcon} />
+                  <span>Admin Panel</span>
+                </li>
                 <hr className={styles.dropdownDivider} />
                 <li
                   className={`${styles.dropdownItem} ${styles.logoutItem}`}
@@ -300,6 +308,17 @@ export default function Navbar() {
               >
                 <FiUser className={styles.drawerItemIcon} />
                 <span>My Profile</span>
+              </Link>
+
+              <Link
+                to="/admin"
+                onClick={() => setDrawerOpen(false)}
+                className={`${styles.drawerNavItem} ${
+                  location.pathname.startsWith('/admin') ? styles.activeDrawerItem : ''
+                }`}
+              >
+                <FiGrid className={styles.drawerItemIcon} />
+                <span>Admin Panel</span>
               </Link>
             </>
           )}

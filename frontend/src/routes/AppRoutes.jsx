@@ -10,8 +10,14 @@ import MyOrders from '../pages/MyOrders';
 import Verify from '../pages/Verify';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
-import Profile from '../pages/Profile';
 import NotFound from '../pages/NotFound';
+
+// Admin Pages
+import AdminLayout from '../pages/admin/AdminLayout';
+import AdminDashboard from '../pages/admin/AdminDashboard';
+import AdminAdd from '../pages/admin/AdminAdd';
+import AdminList from '../pages/admin/AdminList';
+import AdminOrders from '../pages/admin/AdminOrders';
 
 /**
  * Main Application Routing Architecture
@@ -44,6 +50,15 @@ export default function AppRoutes() {
 
       {/* User Account */}
       <Route path="/profile" element={<Profile />} />
+
+      {/* Admin Portal Nested Routes */}
+      <Route path="/admin" element={<AdminLayout />}>
+        <Route index element={<AdminDashboard />} />
+        <Route path="dashboard" element={<AdminDashboard />} />
+        <Route path="add" element={<AdminAdd />} />
+        <Route path="list" element={<AdminList />} />
+        <Route path="orders" element={<AdminOrders />} />
+      </Route>
 
       {/* 404 Catch-All Route */}
       <Route path="*" element={<NotFound />} />
