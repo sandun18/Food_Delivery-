@@ -15,6 +15,14 @@
   padding-bottom: 3rem;
 }
 
+/* Dedicated Full-Screen Admin Portal Container */
+.admin-app-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
 /* ==========================================================================
    Responsive Layout Breakpoints
    ========================================================================== */

@@ -10,6 +10,7 @@ import MyOrders from '../pages/MyOrders';
 import Verify from '../pages/Verify';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
+import Profile from '../pages/Profile';
 import NotFound from '../pages/NotFound';
 
 // Admin Pages
