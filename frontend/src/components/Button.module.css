@@ -1,0 +1,140 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-family);
+  font-weight: 600;
+  border-radius: var(--border-radius-full);
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  outline: none;
+  text-decoration: none;
+  user-select: none;
+  white-space: nowrap;
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover micro-animations & active press */
+.button:not(.disabled):hover {
+  transform: translateY(-2px);
+}
+
+.button:not(.disabled):active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Sizes */
+.sm {
+  padding: 0.4rem 1.1rem;
+  font-size: 0.85rem;
+}
+
+.md {
+  padding: 0.65rem 1.6rem;
+  font-size: 0.95rem;
+}
+
+.lg {
+  padding: 0.85rem 2.2rem;
+  font-size: 1.05rem;
+}
+
+/* Variants */
+.primary {
+  background-color: var(--primary);
+  color: var(--white);
+  border-color: var(--primary);
+}
+
+.primary:not(.disabled):hover {
+  background-color: var(--primary-hover);
+  border-color: var(--primary-hover);
+  box-shadow: var(--shadow-primary);
+}
+
+.secondary {
+  background-color: var(--secondary);
+  color: var(--white);
+  border-color: var(--secondary);
+}
+
+.secondary:not(.disabled):hover {
+  background-color: var(--dark);
+  border-color: var(--dark);
+  box-shadow: var(--shadow-md);
+}
+
+.outline {
+  background-color: transparent;
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.outline:not(.disabled):hover {
+  background-color: var(--primary);
+  color: var(--white);
+  box-shadow: var(--shadow-primary);
+}
+
+.danger {
+  background-color: var(--danger);
+  color: var(--white);
+  border-color: var(--danger);
+}
+
+.danger:not(.disabled):hover {
+  background-color: #dc2626;
+  border-color: #dc2626;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
+}
+
+/* Full Width */
+.fullWidth {
+  width: 100%;
+}
+
+/* Disabled State */
+.disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Loading Spinner */
+.spinner {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.iconLeft,
+.iconRight {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1em;
+}
+
+.label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
