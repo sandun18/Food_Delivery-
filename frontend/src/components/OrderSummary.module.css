@@ -1,0 +1,237 @@
+.orderSummaryCard {
+  background-color: var(--white);
+  border-radius: var(--border-radius-md, 16px);
+  border: 1px solid var(--gray-200);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.summaryTitle {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.96rem;
+}
+
+.rowLabel {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.rowValue {
+  color: var(--dark);
+  font-weight: 600;
+}
+
+.discountRow .rowLabel {
+  color: var(--success);
+  font-weight: 600;
+}
+
+.discountValue {
+  color: var(--success);
+  font-weight: 700;
+}
+
+.freeText {
+  color: var(--success);
+  font-weight: 600;
+}
+
+.divider {
+  margin: 0.5rem 0;
+  border: none;
+  border-top: 1.5px dashed var(--gray-200);
+}
+
+.totalRow {
+  margin-top: 0.25rem;
+  font-size: 1.25rem;
+}
+
+.totalLabel {
+  font-weight: 700;
+  color: var(--dark);
+}
+
+.totalValue {
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: -0.01em;
+}
+
+/* Promo Code Box */
+.promoSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.promoForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.promoInputWrapper {
+  display: flex;
+  align-items: center;
+  background-color: var(--gray-100);
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--border-radius-full);
+  padding: 0.35rem 0.4rem 0.35rem 0.95rem;
+  transition: all var(--transition-fast);
+}
+
+.promoInputWrapper:focus-within {
+  border-color: var(--primary);
+  background-color: var(--white);
+  box-shadow: 0 0 0 3px rgba(255, 76, 36, 0.12);
+}
+
+.promoIcon {
+  font-size: 1.05rem;
+  color: var(--gray-400);
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+}
+
+.promoInput {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--font-family);
+  font-size: 0.88rem;
+  color: var(--text-primary);
+}
+
+.promoInput::placeholder {
+  color: var(--gray-400);
+}
+
+.applyBtn {
+  background-color: var(--dark);
+  color: var(--white);
+  border: none;
+  border-radius: var(--border-radius-full);
+  padding: 0.5rem 1.15rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.applyBtn:hover:not(:disabled) {
+  background-color: var(--primary);
+}
+
+.applyBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.errorText {
+  font-size: 0.8rem;
+  color: var(--danger);
+  padding-left: 0.75rem;
+}
+
+/* Applied Promo Badge */
+.appliedBadge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--success-bg);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: var(--border-radius-sm, 10px);
+  padding: 0.65rem 0.95rem;
+  font-size: 0.86rem;
+  color: #065f46;
+  animation: fadeIn 0.25s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.badgeLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.checkIcon {
+  color: var(--success);
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.removePromoBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #065f46;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  border-radius: 50%;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.removePromoBtn:hover {
+  color: var(--danger);
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+/* Checkout CTA */
+.actionArea {
+  margin-top: 0.5rem;
+}
+
+.checkoutBtn {
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-size: 0.92rem !important;
+}
+
+@media (max-width: 600px) {
+  .orderSummaryCard {
+    padding: 1.25rem;
+    gap: 1.25rem;
+  }
+
+  .summaryTitle {
+    font-size: 1.2rem;
+  }
+
+  .totalRow {
+    font-size: 1.15rem;
+  }
+}

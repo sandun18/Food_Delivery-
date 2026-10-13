@@ -1,0 +1,244 @@
+.cartPage {
+  padding: 1.5rem 0 4rem;
+  width: 100%;
+  animation: fadeIn 0.35s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Page Header */
+.pageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--gray-200);
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.title {
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  font-weight: 800;
+  color: var(--dark);
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 0.96rem;
+  margin: 0;
+}
+
+.itemCountBadge {
+  background-color: var(--primary-light);
+  color: var(--primary);
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.4rem 1rem;
+  border-radius: var(--border-radius-full);
+  border: 1px solid rgba(255, 76, 36, 0.2);
+}
+
+/* Empty Cart View */
+.emptyCartCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 5rem 1.5rem;
+  background-color: var(--white);
+  border: 2px dashed var(--gray-200);
+  border-radius: var(--border-radius-lg, 24px);
+  margin: 1.5rem 0 3rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.emptyIconCircle {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background-color: var(--primary-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  animation: floatIcon 3s ease-in-out infinite;
+}
+
+@keyframes floatIcon {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.emptyIcon {
+  font-size: 2.8rem;
+  color: var(--primary);
+}
+
+.emptyTitle {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin: 0 0 0.6rem;
+}
+
+.emptyDesc {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  max-width: 440px;
+  line-height: 1.6;
+  margin: 0 0 2rem;
+}
+
+.browseBtn {
+  box-shadow: var(--shadow-primary);
+  padding: 0.8rem 2.4rem !important;
+  font-size: 1rem !important;
+}
+
+/* Active Cart 2-Column Layout */
+.cartLayout {
+  display: grid;
+  grid-template-columns: 1.75fr 1fr;
+  gap: 2.5rem;
+  align-items: flex-start;
+}
+
+/* Left Column: Cart Items Table */
+.cartItemsSection {
+  background-color: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--border-radius-md, 16px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.tableHeader {
+  display: grid;
+  grid-template-columns: 2.2fr 1fr 1.2fr 1fr 0.5fr;
+  align-items: center;
+  padding: 0.5rem 0.5rem 1rem;
+  border-bottom: 2px solid var(--gray-200);
+  color: var(--gray-500);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.thRemove {
+  text-align: center;
+}
+
+.itemsList {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Bottom Controls */
+.cartFooterControls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1.5rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid var(--gray-200);
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.continueLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+.continueLink:hover {
+  color: var(--primary);
+  transform: translateX(-3px);
+}
+
+.clearCartBtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--gray-400);
+  font-size: 0.88rem;
+  font-weight: 500;
+  transition: color var(--transition-fast);
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--border-radius-sm);
+}
+
+.clearCartBtn:hover {
+  color: var(--danger);
+  background-color: var(--danger-bg);
+}
+
+/* Right Column: Order Summary Sticky Area */
+.orderSummarySection {
+  position: sticky;
+  top: 90px;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 992px) {
+  .cartLayout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .orderSummarySection {
+    position: static;
+  }
+}
+
+@media (max-width: 768px) {
+  .tableHeader {
+    display: none;
+  }
+
+  .cartItemsSection {
+    padding: 1rem;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+  }
+
+  .pageHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
