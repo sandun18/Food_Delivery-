@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { assets } from '../assets/assets';
-import { FiShoppingBag, FiSearch } from 'react-icons/fi';
+import { FiShoppingBag, FiSearch, FiLogOut, FiUser } from 'react-icons/fi';
+import { useAppContext } from '../context/AppContext';
 import styles from './Navbar.module.css';
 
 /**
@@ -10,6 +11,16 @@ import styles from './Navbar.module.css';
 export default function Navbar() {
   const [menu, setMenu] = useState('home');
   const location = useLocation();
+  const navigate = useNavigate();
+  const { getTotalCartCount, token, setToken } = useAppContext();
+
+  const cartCount = getTotalCartCount ? getTotalCartCount() : 0;
+
+  const logout = () => {
+    setToken('');
+    localStorage.removeItem('token');
+    navigate('/');
+  };
 
   return (
     <header className={styles.navbar}>
@@ -68,12 +79,35 @@ export default function Navbar() {
 
         <Link to="/cart" className={styles.cartIconWrapper} title="View Cart">
           <FiShoppingBag />
-          <span className={styles.cartDot}>0</span>
+          <span className={styles.cartDot}>{cartCount}</span>
         </Link>
 
-        <Link to="/signin">
-          <button className={styles.signInBtn}>Sign In</button>
-        </Link>
+        {!token ? (
+          <Link to="/signin">
+            <button className={styles.signInBtn}>Sign In</button>
+          </Link>
+        ) : (
+          <div className={styles.navbarProfile}>
+            <img src={assets.profile_image} alt="User Profile" className={styles.profileIcon} />
+            <div className={styles.navProfileDropdown}>
+              <ul className={styles.dropdownMenu}>
+                <li className={styles.dropdownItem} onClick={() => navigate('/myorders')}>
+                  <FiShoppingBag className={styles.itemIcon} />
+                  <span>Orders</span>
+                </li>
+                <li className={styles.dropdownItem} onClick={() => navigate('/profile')}>
+                  <FiUser className={styles.itemIcon} />
+                  <span>Profile</span>
+                </li>
+                <hr className={styles.dropdownDivider} />
+                <li className={`${styles.dropdownItem} ${styles.logoutItem}`} onClick={logout}>
+                  <FiLogOut className={styles.itemIcon} />
+                  <span>Logout</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        )}
       </div>
     </header>
   );

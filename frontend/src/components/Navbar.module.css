@@ -103,6 +103,110 @@
   box-shadow: var(--shadow-primary);
 }
 
+.navbarProfile {
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.profileIcon {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--border-radius-full);
+  object-fit: cover;
+  border: 2px solid var(--primary);
+  transition: transform var(--transition-fast);
+}
+
+.navbarProfile:hover .profileIcon {
+  transform: scale(1.06);
+  box-shadow: 0 0 0 3px rgba(255, 78, 0, 0.2);
+}
+
+.navProfileDropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  padding-top: 0.6rem;
+  z-index: 100;
+  display: none;
+  min-width: 175px;
+}
+
+.navbarProfile:hover .navProfileDropdown,
+.navProfileDropdown:hover {
+  display: block;
+}
+
+@keyframes dropdownSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.dropdownMenu {
+  list-style: none;
+  background-color: #ffffff;
+  border-radius: var(--border-radius-md, 12px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12), 0 4px 10px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--gray-200);
+  padding: 0.45rem 0;
+  display: flex;
+  flex-direction: column;
+  animation: dropdownSlideDown 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  overflow: hidden;
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 1.15rem;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.itemIcon {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.dropdownItem:hover {
+  background-color: var(--gray-100);
+  color: var(--primary);
+  padding-left: 1.3rem;
+}
+
+.dropdownItem:hover .itemIcon {
+  color: var(--primary);
+  transform: scale(1.1);
+}
+
+.logoutItem:hover {
+  color: #dc2626 !important;
+  background-color: #fee2e2 !important;
+}
+
+.logoutItem:hover .itemIcon {
+  color: #dc2626 !important;
+}
+
+.dropdownDivider {
+  margin: 0.35rem 0;
+  border: none;
+  border-top: 1px solid var(--gray-200);
+}
+
 @media (max-width: 900px) {
   .navMenu {
     gap: 1.25rem;

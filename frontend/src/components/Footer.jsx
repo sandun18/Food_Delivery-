@@ -1,10 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { assets } from '../assets/assets';
-import { FaFacebookF, FaTwitter, FaLinkedinIn } from 'react-icons/fa';
+import { FaFacebookF, FaTwitter, FaLinkedinIn, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 import styles from './Footer.module.css';
 
 /**
  * Responsive Footer Component
+ * Features company details, quick navigation links, social icons, contact info, and copyright note
  */
 export default function Footer() {
   return (
@@ -12,31 +14,62 @@ export default function Footer() {
       <div className={styles.footerContent}>
         {/* Left Section: Brand & About */}
         <div className={styles.footerContentLeft}>
-          <img src={assets.logo} alt="Foodies Logo" className={styles.footerLogo} />
+          <Link to="/">
+            <img src={assets.logo} alt="Foodies Logo" className={styles.footerLogo} />
+          </Link>
           <p>
             Craving something delicious? We deliver hot, fresh, and chef-crafted meals straight to your doorstep within minutes. Quality food, fast delivery, and exceptional taste guaranteed.
           </p>
           <div className={styles.socialIcons}>
-            <div className={styles.socialIcon} aria-label="Facebook">
+            <a
+              href="https://facebook.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.socialIcon}
+              aria-label="Facebook"
+            >
               <FaFacebookF />
-            </div>
-            <div className={styles.socialIcon} aria-label="Twitter">
+            </a>
+            <a
+              href="https://twitter.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.socialIcon}
+              aria-label="Twitter"
+            >
               <FaTwitter />
-            </div>
-            <div className={styles.socialIcon} aria-label="LinkedIn">
+            </a>
+            <a
+              href="https://linkedin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.socialIcon}
+              aria-label="LinkedIn"
+            >
               <FaLinkedinIn />
-            </div>
+            </a>
           </div>
         </div>
 
-        {/* Center Section: Navigation Links */}
+        {/* Center Section: Quick Links */}
         <div className={styles.footerContentCenter}>
-          <h3>COMPANY</h3>
+          <h3>QUICK LINKS</h3>
           <ul>
-            <li>Home</li>
-            <li>About Us</li>
-            <li>Delivery Info</li>
-            <li>Privacy Policy</li>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/menu">Menu</Link>
+            </li>
+            <li>
+              <Link to="/cart">Cart</Link>
+            </li>
+            <li>
+              <a href="#app-download">Mobile App</a>
+            </li>
+            <li>
+              <a href="#privacy">Privacy Policy</a>
+            </li>
           </ul>
         </div>
 
@@ -44,9 +77,28 @@ export default function Footer() {
         <div className={styles.footerContentRight}>
           <h3>GET IN TOUCH</h3>
           <ul>
-            <li>+94 11 234 5678</li>
-            <li>support@foodies.com</li>
-            <li>Colombo, Sri Lanka</li>
+            <li>
+              <a href="tel:+94112345678" className={styles.contactItem}>
+                <FaPhoneAlt className={styles.contactIcon} />
+                <span>+94 11 234 5678</span>
+              </a>
+            </li>
+            <li>
+              <a href="tel:+94771234567" className={styles.contactItem}>
+                <FaPhoneAlt className={styles.contactIcon} />
+                <span>+94 77 123 4567</span>
+              </a>
+            </li>
+            <li>
+              <a href="mailto:support@foodies.com" className={styles.contactItem}>
+                <FaEnvelope className={styles.contactIcon} />
+                <span>support@foodies.com</span>
+              </a>
+            </li>
+            <li className={styles.contactItem}>
+              <FaMapMarkerAlt className={styles.contactIcon} />
+              <span>Colombo, Sri Lanka</span>
+            </li>
           </ul>
         </div>
       </div>
