@@ -3,6 +3,7 @@ import { useAppContext } from '../context/AppContext';
 import CategoryMenu from '../components/CategoryMenu';
 import SearchBar from '../components/SearchBar';
 import FoodCard from '../components/FoodCard';
+import { FoodGridSkeleton } from '../components/Skeleton';
 import { food_list as defaultFoodList } from '../data/food';
 import { FiFilter, FiX, FiRefreshCw } from 'react-icons/fi';
 import styles from './Menu.module.css';

@@ -1,29 +1,60 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Button from '../components/Button';
+import { FiHome, FiShoppingBag, FiPackage, FiHelpCircle } from 'react-icons/fi';
+import styles from './NotFound.module.css';
 
-const NotFound = () => {
+/**
+ * 404 Not Found Page
+ * Displays user-friendly error message when hitting undefined routes,
+ * accompanied by quick recovery links and CTA buttons.
+ */
+export default function NotFound() {
   return (
-    <div style={{ textAlign: 'center', padding: '5rem 1rem' }}>
-      <h1 style={{ fontSize: '4rem', color: 'var(--primary)' }}>404</h1>
-      <h2 style={{ marginBottom: '1rem' }}>Page Not Found</h2>
-      <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem' }}>
-        Oops! The page you are looking for does not exist or has been moved.
-      </p>
-      <Link
-        to="/"
-        style={{
-          display: 'inline-block',
-          padding: '0.75rem 2rem',
-          backgroundColor: 'var(--primary)',
-          color: '#fff',
-          borderRadius: 'var(--border-radius-full)',
-          fontWeight: '600'
-        }}
-      >
-        Go to Homepage
-      </Link>
+    <div className={styles.notFoundPage}>
+      <div className={styles.contentWrapper}>
+        <div className={styles.illustrationBadge}>
+          <span className={styles.codeNumber}>404</span>
+          <span className={styles.foodEmoji} role="img" aria-label="Donut">
+            🍩
+          </span>
+        </div>
+
+        <h1 className={styles.title}>Oops! This Dish Isn't on the Menu</h1>
+        <p className={styles.description}>
+          The page you are looking for might have been moved, removed, or doesn't exist. Let's get you back to discovering delicious food!
+        </p>
+
+        <div className={styles.actionGrid}>
+          <Link to="/">
+            <Button variant="primary">
+              <FiHome style={{ marginRight: 6 }} />
+              <span>Back to Home</span>
+            </Button>
+          </Link>
+          <Link to="/menu">
+            <Button variant="secondary">
+              <FiShoppingBag style={{ marginRight: 6 }} />
+              <span>Browse Full Menu</span>
+            </Button>
+          </Link>
+        </div>
+
+        <div className={styles.quickLinks}>
+          <Link to="/cart" className={styles.quickLinkItem}>
+            <FiShoppingBag />
+            <span>Shopping Cart</span>
+          </Link>
+          <Link to="/myorders" className={styles.quickLinkItem}>
+            <FiPackage />
+            <span>My Orders</span>
+          </Link>
+          <a href="#footer" className={styles.quickLinkItem}>
+            <FiHelpCircle />
+            <span>Contact Support</span>
+          </a>
+        </div>
+      </div>
     </div>
   );
-};
-
-export default NotFound;
+}

@@ -1,3 +1,7 @@
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useAppContext } from "../context/AppContext";
 import styles from "./Home.module.css";
 
 const categories = [
@@ -177,10 +181,21 @@ function TestimonialCard({ name, text, tag }) {
 }
 
 export default function Home() {
-  function handlePrimaryCta() {
-    // Home-only demo: no navigation, no API calls.
-    window.alert("Demo: This is a Home-only UI. Menu/Cart pages are not included.");
-  }
+  const navigate = useNavigate();
+  const { addToCart } = useAppContext();
+
+  const handleOrderClick = () => {
+    navigate('/menu');
+  };
+
+  const handleAddDish = (dish) => {
+    if (addToCart) {
+      addToCart(dish.id);
+      toast.success(`${dish.name} added to cart!`);
+    } else {
+      navigate('/menu');
+    }
+  };
 
   return (
     <div className={styles.page}>
@@ -192,13 +207,13 @@ export default function Home() {
               <div className={styles.pill}>Free delivery on your first order</div>
               <h1 className={styles.h1}>Modern food delivery, made effortless.</h1>
               <p className={styles.lead}>
-                Explore popular dishes, pick a category, and place your order in minutes. Frontend-only UI with mock data.
+                Explore popular dishes, pick a category, and place your order in minutes. Fresh meals delivered right to your doorstep.
               </p>
               <div className={styles.heroCtas}>
-                <button className={styles.primaryBtn} type="button" onClick={handlePrimaryCta}>
+                <button className={styles.primaryBtn} type="button" onClick={handleOrderClick}>
                   Order Now
                 </button>
-                <button className={styles.ghostBtn} type="button" onClick={handlePrimaryCta}>
+                <button className={styles.ghostBtn} type="button" onClick={() => navigate('/menu')}>
                   View Menu
                 </button>
               </div>
@@ -240,7 +255,9 @@ export default function Home() {
                     </div>
                   ))}
                 </div>
-                <div className={styles.artBottom}>Responsive UI • Static mock data</div>
+                <div className={styles.artBottom} onClick={() => navigate('/menu')} style={{ cursor: 'pointer' }}>
+                  Explore All Delicacies →
+                </div>
               </div>
             </div>
           </div>
@@ -248,7 +265,7 @@ export default function Home() {
       </header>
 
       {/* 2) Categories Section */}
-      <section className={styles.section} aria-labelledby="categories-title">
+      <section className={styles.section} id="explore-menu" aria-labelledby="categories-title">
         <div className={styles.container}>
           <div className={styles.sectionHead}>
             <h2 id="categories-title" className={styles.h2}>
@@ -258,7 +275,9 @@ export default function Home() {
           </div>
           <div className={styles.categoryGrid}>
             {categories.map((c) => (
-              <CategoryCard key={c.id} icon={c.icon} title={c.title} subtitle={c.subtitle} />
+              <div key={c.id} onClick={() => navigate('/menu')} style={{ cursor: 'pointer' }}>
+                <CategoryCard icon={c.icon} title={c.title} subtitle={c.subtitle} />
+              </div>
             ))}
           </div>
         </div>
@@ -272,14 +291,20 @@ export default function Home() {
               <h2 id="featured-title" className={styles.h2}>
                 Featured dishes
               </h2>
-              <p className={styles.subtext}>A few top picks from our mock menu.</p>
+              <p className={styles.subtext}>A few top picks prepared with love.</p>
             </div>
-            <div className={styles.notePill}>Home page only</div>
+            <button
+              className={styles.notePill}
+              style={{ cursor: 'pointer', background: 'none', border: '1px solid #ff5722', color: '#ff5722' }}
+              onClick={() => navigate('/menu')}
+            >
+              See All Menu →
+            </button>
           </div>
 
           <div className={styles.dishGrid}>
             {featuredDishes.map((dish) => (
-              <DishCard key={dish.id} dish={dish} onAdd={handlePrimaryCta} />
+              <DishCard key={dish.id} dish={dish} onAdd={() => handleAddDish(dish)} />
             ))}
           </div>
         </div>
@@ -292,7 +317,7 @@ export default function Home() {
             <h2 id="why-title" className={styles.h2}>
               Why choose us
             </h2>
-            <p className={styles.subtext}>Built for speed, comfort, and great UX.</p>
+            <p className={styles.subtext}>Built for speed, comfort, and extraordinary taste.</p>
           </div>
           <div className={styles.featureGrid}>
             {highlights.map((h) => (
@@ -303,22 +328,22 @@ export default function Home() {
       </section>
 
       {/* 5) App Promotion Section */}
-      <section className={styles.promo} aria-labelledby="promo-title">
+      <section className={styles.promo} id="app-download" aria-labelledby="promo-title">
         <div className={styles.container}>
           <div className={styles.promoCard}>
             <div className={styles.promoText}>
               <div className={styles.pillDark}>Mobile app</div>
               <h2 id="promo-title" className={styles.h2}>
-                Save more with the app
+                Save more with our mobile app
               </h2>
               <p className={styles.subtext}>
-                Get exclusive deals, faster checkout, and order updates. (UI-only promo section)
+                Get exclusive deals, faster one-click checkout, and live order tracking notifications.
               </p>
               <div className={styles.promoCtas}>
-                <button className={styles.darkBtn} type="button" onClick={handlePrimaryCta}>
+                <button className={styles.darkBtn} type="button" onClick={() => toast.info('App Store launch coming soon!')}>
                   Download on App Store
                 </button>
-                <button className={styles.ghostBtn} type="button" onClick={handlePrimaryCta}>
+                <button className={styles.ghostBtn} type="button" onClick={() => toast.info('Google Play launch coming soon!')}>
                   Get it on Google Play
                 </button>
               </div>
@@ -344,7 +369,7 @@ export default function Home() {
             <h2 id="testimonials-title" className={styles.h2}>
               What customers say
             </h2>
-            <p className={styles.subtext}>Loved for the clean UI and easy flow.</p>
+            <p className={styles.subtext}>Loved for the delicious meals and lightning-fast delivery.</p>
           </div>
           <div className={styles.reviewGrid}>
             {testimonials.map((t) => (
@@ -361,14 +386,14 @@ export default function Home() {
             <div>
               <h2 className={styles.finalTitle}>Ready to order your next meal?</h2>
               <p className={styles.finalText}>
-                Start now and enjoy a modern food delivery experience. (Home-only demo)
+                Explore delicious cuisines and satisfy your cravings with fast home delivery.
               </p>
             </div>
             <div className={styles.finalActions}>
-              <button className={styles.primaryBtn} type="button" onClick={handlePrimaryCta}>
+              <button className={styles.primaryBtn} type="button" onClick={() => navigate('/menu')}>
                 Start Ordering
               </button>
-              <button className={styles.ghostBtn} type="button" onClick={handlePrimaryCta}>
+              <button className={styles.ghostBtn} type="button" onClick={() => navigate('/menu')}>
                 Browse Dishes
               </button>
             </div>
