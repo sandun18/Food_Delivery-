@@ -28,6 +28,7 @@ export default function OrderSummary({
   currency = '$',
   showPromoInput = true,
   buttonText = 'PROCEED TO CHECKOUT',
+  loading = false,
   onCheckout,
   className = ''
 }) {
@@ -217,10 +218,12 @@ export default function OrderSummary({
       {/* Proceed to Checkout CTA */}
       <div className={styles.actionArea}>
         <Button
+          type="button"
           variant="primary"
           size="lg"
           fullWidth
-          disabled={rawSubtotal === 0}
+          disabled={rawSubtotal === 0 || loading}
+          loading={loading}
           onClick={handleProceed}
           className={styles.checkoutBtn}
         >

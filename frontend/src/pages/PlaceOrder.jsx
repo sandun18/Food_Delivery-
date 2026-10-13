@@ -424,7 +424,14 @@ export default function PlaceOrder() {
             deliveryFee={deliveryFee}
             currency="$"
             showPromoInput={false}
-            buttonText={paymentMethod === 'cod' ? 'CONFIRM CASH ON DELIVERY' : 'PROCEED TO PAYMENT'}
+            loading={loading}
+            buttonText={
+              loading
+                ? 'PROCESSING ORDER...'
+                : paymentMethod === 'cod'
+                ? 'CONFIRM CASH ON DELIVERY'
+                : 'PROCEED TO PAYMENT'
+            }
             onCheckout={handlePlaceOrder}
           />
 
