@@ -1,0 +1,297 @@
+.placeOrderPage {
+  padding: 1.5rem 0 4rem;
+  width: 100%;
+  animation: fadeIn 0.35s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Page Header */
+.pageHeader {
+  margin-bottom: 2rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  margin-bottom: 0.75rem;
+  transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+.backLink:hover {
+  color: var(--primary);
+  transform: translateX(-3px);
+}
+
+.title {
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  font-weight: 800;
+  color: var(--dark);
+  margin: 0 0 0.3rem;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* Main Two-Column Layout */
+.orderLayout {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 3rem;
+  align-items: flex-start;
+}
+
+/* Left Form Section */
+.deliveryFormCard {
+  background-color: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--border-radius-md, 16px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1.5px solid var(--gray-200);
+}
+
+.sectionIcon {
+  font-size: 1.3rem;
+  color: var(--primary);
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin: 0;
+}
+
+.formFields {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.formLabel {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  background-color: var(--gray-50);
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--border-radius-md, 10px);
+  padding: 0.75rem 1rem;
+  transition: all var(--transition-fast);
+}
+
+.inputWrapper:focus-within {
+  border-color: var(--primary);
+  background-color: var(--white);
+  box-shadow: 0 0 0 3px rgba(255, 76, 36, 0.14);
+}
+
+.inputWrapper.hasError {
+  border-color: var(--danger);
+  background-color: var(--danger-bg);
+}
+
+.inputIcon {
+  font-size: 1.1rem;
+  color: var(--gray-400);
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+  transition: color var(--transition-fast);
+}
+
+.inputWrapper:focus-within .inputIcon {
+  color: var(--primary);
+}
+
+.formInput {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--font-family);
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.formInput::placeholder {
+  color: var(--gray-400);
+}
+
+.errorText {
+  color: var(--danger);
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding-left: 0.25rem;
+}
+
+/* Right Summary Sidebar */
+.orderSidebar {
+  position: sticky;
+  top: 90px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.paymentMethodSection {
+  background-color: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--border-radius-md, 16px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.paymentTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin: 0;
+}
+
+.paymentOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.paymentCard {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.85rem 1rem;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--border-radius-md, 12px);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.paymentCard:hover {
+  border-color: var(--gray-300);
+  background-color: var(--gray-50);
+}
+
+.paymentCard.selected {
+  border-color: var(--primary);
+  background-color: var(--primary-light);
+}
+
+.paymentRadio {
+  accent-color: var(--primary);
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.paymentLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  cursor: pointer;
+}
+
+.paymentName {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.paymentDesc {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+/* Trust Badges */
+.trustBadges {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 0.75rem;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+.trustItem {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.trustIcon {
+  color: var(--primary);
+  font-size: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .orderLayout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .orderSidebar {
+    position: static;
+  }
+}
+
+@media (max-width: 600px) {
+  .formRow {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .deliveryFormCard {
+    padding: 1.25rem;
+  }
+}
