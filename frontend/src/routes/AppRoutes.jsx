@@ -13,6 +13,8 @@ import SignUp from '../pages/SignUp';
 import Profile from '../pages/Profile';
 import NotFound from '../pages/NotFound';
 
+import AdminProtectedRoute from './AdminProtectedRoute';
+
 // Admin Pages
 import AdminLayout from '../pages/admin/AdminLayout';
 import AdminDashboard from '../pages/admin/AdminDashboard';
@@ -52,13 +54,15 @@ export default function AppRoutes() {
       {/* User Account */}
       <Route path="/profile" element={<Profile />} />
 
-      {/* Admin Portal Nested Routes */}
-      <Route path="/admin" element={<AdminLayout />}>
-        <Route index element={<AdminDashboard />} />
-        <Route path="dashboard" element={<AdminDashboard />} />
-        <Route path="add" element={<AdminAdd />} />
-        <Route path="list" element={<AdminList />} />
-        <Route path="orders" element={<AdminOrders />} />
+      {/* Admin Portal Protected Nested Routes */}
+      <Route element={<AdminProtectedRoute />}>
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminDashboard />} />
+          <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="add" element={<AdminAdd />} />
+          <Route path="list" element={<AdminList />} />
+          <Route path="orders" element={<AdminOrders />} />
+        </Route>
       </Route>
 
       {/* 404 Catch-All Route */}

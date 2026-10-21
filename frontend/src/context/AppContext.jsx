@@ -37,7 +37,14 @@ export const AppContextProvider = ({ children }) => {
   });
 
   // 5. Authenticated User Profile Object
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    try {
+      const savedUser = localStorage.getItem('user');
+      return savedUser ? JSON.parse(savedUser) : null;
+    } catch {
+      return null;
+    }
+  });
 
   /**
    * Fetch live food items from backend API
@@ -179,13 +186,33 @@ export const AppContextProvider = ({ children }) => {
     return totalCount;
   };
 
-  // Synchronize token state with localStorage and load backend cart
+  /**
+   * Fetch authenticated user profile
+   * @param {string} authToken
+   */
+  const loadUserProfile = async (authToken) => {
+    try {
+      const response = await axios.get(`${url}/api/user/profile`, {
+        headers: { token: authToken, Authorization: `Bearer ${authToken}` }
+      });
+      if (response.data?.success && response.data.user) {
+        setUser(response.data.user);
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+      }
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+    }
+  };
+
+  // Synchronize token state with localStorage and load backend cart & profile
   useEffect(() => {
     if (token) {
       localStorage.setItem('token', token);
       loadCartData(token);
+      loadUserProfile(token);
     } else {
       localStorage.removeItem('token');
+      localStorage.removeItem('user');
       setUser(null);
       setCartItems({});
     }

@@ -25,7 +25,7 @@ export default function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { getTotalCartCount, token, setToken, user } = useAppContext();
+  const { getTotalCartCount, token, setToken, user, setUser } = useAppContext();
 
   const cartCount = getTotalCartCount ? getTotalCartCount() : 0;
 
@@ -56,6 +56,8 @@ export default function Navbar() {
   const logout = () => {
     setToken('');
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    if (setUser) setUser(null);
     setDrawerOpen(false);
     navigate('/');
   };
@@ -166,13 +168,15 @@ export default function Navbar() {
                   <FiUser className={styles.itemIcon} />
                   <span>Profile</span>
                 </li>
-                <li
-                  className={styles.dropdownItem}
-                  onClick={() => navigate('/admin')}
-                >
-                  <FiGrid className={styles.itemIcon} />
-                  <span>Admin Panel</span>
-                </li>
+                {user?.role === 'admin' && (
+                  <li
+                    className={styles.dropdownItem}
+                    onClick={() => navigate('/admin')}
+                  >
+                    <FiGrid className={styles.itemIcon} />
+                    <span>Admin Panel</span>
+                  </li>
+                )}
                 <hr className={styles.dropdownDivider} />
                 <li
                   className={`${styles.dropdownItem} ${styles.logoutItem}`}
@@ -310,16 +314,18 @@ export default function Navbar() {
                 <span>My Profile</span>
               </Link>
 
-              <Link
-                to="/admin"
-                onClick={() => setDrawerOpen(false)}
-                className={`${styles.drawerNavItem} ${
-                  location.pathname.startsWith('/admin') ? styles.activeDrawerItem : ''
-                }`}
-              >
-                <FiGrid className={styles.drawerItemIcon} />
-                <span>Admin Panel</span>
-              </Link>
+              {user?.role === 'admin' && (
+                <Link
+                  to="/admin"
+                  onClick={() => setDrawerOpen(false)}
+                  className={`${styles.drawerNavItem} ${
+                    location.pathname.startsWith('/admin') ? styles.activeDrawerItem : ''
+                  }`}
+                >
+                  <FiGrid className={styles.drawerItemIcon} />
+                  <span>Admin Panel</span>
+                </Link>
+              )}
             </>
           )}
         </nav>
