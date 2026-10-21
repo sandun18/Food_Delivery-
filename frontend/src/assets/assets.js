@@ -9,6 +9,9 @@ import add_icon_white from './add_icon_white.png'
 import add_icon_green from './add_icon_green.png'
 import remove_icon_red from './remove_icon_red.png'
 
+import play_store from './play_store.png'
+import app_store from './app_store.png'
+
 export const assets = {
     logo,
     add_icon,
@@ -19,7 +22,9 @@ export const assets = {
     rating_starts,
     add_icon_white,
     add_icon_green,
-    remove_icon_red
+    remove_icon_red,
+    play_store,
+    app_store
 }
 
 export const url = 'http://localhost:4000'
